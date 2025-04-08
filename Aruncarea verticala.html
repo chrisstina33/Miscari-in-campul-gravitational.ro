@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aruncarea pe verticală in sus</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #9501ff, #0000e9);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            font-family:Georgia, 'Times New Roman', Times, serif;
+            color: white;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .data-panel {
+            width: 30%;
+            padding: 20px;
+            background: rgba(245, 5, 25, 0.945);
+            border-radius: 10px;
+        }
+        canvas {
+            background: url('https://www.novacolor-romania.ro/wp-content/uploads/2022/05/2-2-nuantele-de-verde-in-designul-interior-nuante-de-verde-in-living-canapea-alba-perete-verde.jpg') no-repeat center center/cover;
+            border: 2px solid rgb(238, 217, 28);
+        }
+        .counter {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        button {
+            color: #6a0dad;
+            background-color: white;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <center><h1>Mișcări în câmpul gravitațional</h1>
+    <h2>Aruncarea pe verticală în sus a unui corp</h2>
+    <p>Atunci când un corp este aruncat vertical în sus, acesta se mișcă împotriva forței gravitaționale, încetinindu-se treptat până ajunge la punctul cel mai înalt. Aici, viteza lui devine zero pentru un moment foarte scurt, după care începe să cadă înapoi spre sol.</p>
+    <button onclick="window.location.href='Grafice caderea libera.html'">Graficele pentru căderea liberă</button>
+    <button onclick="window.location.href='Aruncarea verticala grafice.html'">Graficele aferente acestui concept</button>
+    <button onclick="window.location.href='Aruncarea sub un unghi.html'">Aruncarea sub un unghi-Situația 3</button>
+    <button onclick="window.location.href='Formule.html'">Formule utile pentru fiecare situație</button>
+    
+
+    </center>
+    
+    <div class="container">
+        <div class="data-panel">
+            <h2>Rezultate și simulare live</h2>
+            <div class="counter" id="viteza">Viteza: 0 m/s</div>
+            <div class="counter" id="inaltime">Înălțime: 0 m</div>
+            <div class="counter" id="timp">Timp urcare: 0 s</div>
+            <div class="counter" id="energie_cinetica">Energie cinetică: 0 J</div>
+            <div class="counter" id="energie_potentiala">Energie potențială: 0 J</div>
+            <div class="counter" id="energie_mecanica">Energie mecanică: 0 J</div>
+            <button onclick="aruncaMingea()">Aruncă Mingea</button>
+        </div>
+        <canvas id="canvas" width="400" height="500"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        let g = 9.8;
+        let masa = 1;
+        let y, velocity, isMoving, startTime, data;
+        
+        function resetSimulare() {
+            y = canvas.height - 50;
+            velocity = 0;
+            isMoving = false;
+            startTime = 0;
+            data = [];
+            drawBall();
+            actualizeazaAfisaj(0, 0, 0, 0, 0, 0);
+        }
+        
+        function drawBall() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, y, 20, 0, Math.PI * 2);
+            ctx.fillStyle = "purple";
+            ctx.fill();
+            ctx.closePath();
+        }
+        
+        function actualizeazaAfisaj(v, h, t, ec, ep, em) {
+            document.getElementById("viteza").textContent = `Viteza: ${v.toFixed(2)} m/s`;
+            document.getElementById("inaltime").textContent = `Înălțime: ${h.toFixed(2)} m`;
+            document.getElementById("timp").textContent = `Timp urcare: ${t.toFixed(2)} s`;
+            document.getElementById("energie_cinetica").textContent = `Energie cinetică: ${ec.toFixed(2)} J`;
+            document.getElementById("energie_potentiala").textContent = `Energie potențială: ${ep.toFixed(2)} J`;
+            document.getElementById("energie_mecanica").textContent = `Energie mecanică: ${em.toFixed(2)} J`;
+        }
+
+        function update() {
+            if (!isMoving) return;
+            
+            velocity -= g * 0.05;
+            y -= velocity;
+            let h = (canvas.height - 50 - y) / 10;
+            let ec = 0.5 * masa * velocity * velocity;
+            let ep = masa * g * h;
+            let em = ec + ep;
+
+            if (velocity <= 0 && startTime === 0) {
+                startTime = Date.now();
+            }
+            
+            if (y >= canvas.height - 50) {
+                velocity *= -0.6;
+                y = canvas.height - 50;
+                if (Math.abs(velocity) < 1) {
+                    isMoving = false; // Permite o nouă aruncare
+                    velocity = 0;
+                }
+                document.getElementById("timp").textContent = `Timp urcare: ${((Date.now() - startTime) / 1000).toFixed(2)} s`;
+                startTime = 0;
+            }
+            
+            actualizeazaAfisaj(velocity, h, (Date.now() - startTime) / 1000, ec, ep, em);
+            data.push({ time: Date.now(), speed: velocity, height: h, ec: ec, ep: ep, em: em });
+            localStorage.setItem("motionData", JSON.stringify(data));
+
+            drawBall();
+            requestAnimationFrame(update);
+        }
+
+        function aruncaMingea() {
+            if (!isMoving) {
+                velocity = 20;
+                isMoving = true;
+                startTime = 0;
+                update();
+            }
+        }
+
+        resetSimulare();
+    </script>
+</body>
+</html>

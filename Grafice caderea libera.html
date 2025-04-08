@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grafice Căderea Liberă</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<style>body{
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  padding:20px;
+  color: rgb(0, 0, 0);
+  background: linear-gradient(to right, #4af544, #81ffa1);
+  text-shadow: 2px 2px 5px rgb(255, 255, 255);
+}
+
+.chart-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap:20px;
+}
+
+button{
+  font-family:'Courier New', Courier, monospace;
+  color:rgb(0, 255, 42);
+  background-color:forestgreen;
+}
+</style>
+<body>
+
+
+  <center><em><strong<h1>Grafice pentru căderea liberă</h1></strong></em></center>
+
+  <canvas id="graficeCanvas" width="800" height="400"></canvas>
+
+  <p><strong>Timp:</strong> <span id="timp">0.00</span> s</p>
+  <p><strong>Viteză:</strong> <span id="viteza">0.00</span> m/s</p>
+  <p><strong>Ep:</strong> <span id="ep">0.00</span> J</p>
+  <p><strong>Ec:</strong> <span id="ec">0.00</span> J</p>
+
+  <center><button onclick="window.location.href='Caderealibera.html'">Simulare live - Căderea liberă</button></center>
+
+  <script>
+    const ctx = document.getElementById('graficeCanvas').getContext('2d');
+
+    let timp = 0;
+    let v = 0;
+    let g = parseFloat(localStorage.getItem('g')) || 10;
+    let masa = parseFloat(localStorage.getItem('mass')) || 1;
+    let h0 = parseFloat(localStorage.getItem('height')) || 10;
+    let y = h0;
+
+    const interval = 0.1;
+
+    const timpuri = [];
+    const viteze = [];
+    const Ep = [];
+    const Ec = [];
+    function updatePhysics(dt) {
+    timp += dt;
+    v += g * dt;
+    y += v * dt * 100;
+
+    const podeaY = canvas.height - 30;
+    if (y + radius >= podeaY) {
+        y = podeaY - radius;
+        v = -v * bounceFactor;
+
+        if (Math.abs(v) < 1) {
+            animatie = false;
+        }
+    }
+
+    const h = Math.max((podeaY - y - radius) / 100, 0);
+    const Ep = masa * g * h;
+    const Ec = 0.5 * masa * v * v;
+
+    // Afișare pe ecran
+    document.getElementById("timp").textContent = timp.toFixed(2);
+    document.getElementById("viteza").textContent = v.toFixed(2);
+    document.getElementById("ep").textContent = Ep.toFixed(2);
+    document.getElementById("ec").textContent = Ec.toFixed(2);
+
+    // Salvare în localStorage sub formă de JSON
+    let graficeData = JSON.parse(localStorage.getItem("graficeData")) || { timp: [], viteza: [], ep: [], ec: [] };
+    graficeData.timp.push(timp);
+    graficeData.viteza.push(v);
+    graficeData.ep.push(Ep);
+    graficeData.ec.push(Ec);
+    localStorage.setItem("graficeData", JSON.stringify(graficeData));
+}
+
+
+    const grafic = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: timpuri,
+        datasets: [
+          {
+            label: 'Viteza (m/s)',
+            data: viteze,
+            borderColor: 'violet',
+            fill: false,
+          },
+          {
+            label: 'Ep (J)',
+            data: Ep,
+            borderColor: 'green',
+            fill: false,
+          },
+          {
+            label: 'Ec (J)',
+            data: Ec,
+            borderColor: 'orange',
+            fill: false,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        animation: false,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Timp (s)'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Valori fizice'
+            }
+          }
+        }
+      }
+    });
+
+    function updateGrafice() {
+      if (y <= 0) return;
+
+      timp += interval;
+      v += g * interval;
+      y -= v * interval;
+
+      if (y < 0) y = 0;
+
+      const ep = masa * g * y;
+      const ec = 0.5 * masa * v * v;
+
+      timpuri.push(timp.toFixed(2));
+      viteze.push(v.toFixed(2));
+      Ep.push(ep.toFixed(2));
+      Ec.push(ec.toFixed(2));
+
+      document.getElementById('timp').textContent = timp.toFixed(2);
+      document.getElementById('viteza').textContent = v.toFixed(2);
+      document.getElementById('ep').textContent = ep.toFixed(2);
+      document.getElementById('ec').textContent = ec.toFixed(2);
+
+      grafic.update();
+    }
+
+    setInterval(updateGrafice, interval * 100);
+    function openAltepag(){
+        window.location.href="Aruncarea verticala.html";
+        window.location.href="Aruncarea verticala grafice.html";
+        window.location.href="Grafice caderea libera.html";
+        window.location.href="Formule.html";
+        window.location.href="Aruncarea sub un unghi.html";
+        
+        
+       }
+        
+  </script>
+</body>
+</html>

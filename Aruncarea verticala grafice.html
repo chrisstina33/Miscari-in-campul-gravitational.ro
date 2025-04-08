@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafic Aruncare pe Verticală</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        button{
+            font-family:'Times New Roman', Times, serif;
+            color:navy;
+            background-color:lightseagreen;
+        }
+
+
+
+        body {
+            background: linear-gradient(to bottom, #e5c4fd, #ffc8df);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            color: rgb(68, 3, 49);
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        canvas {
+            border: 2px solid rgb(238, 217, 28);
+            margin: 20px 0;
+        }
+        .description {
+            margin-bottom: 20px;
+        }
+        .counter {
+            font-size: 16px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+       
+        
+
+        <canvas id="motionChart" width="600" height="400"></canvas>
+    </div>
+
+    <script>
+          function openAltepag(){
+        window.location.href="Aruncarea verticala.html";
+        window.location.href="Aruncarea verticala grafice.html";
+        window.location.href="Grafice caderea libera.html";
+        window.location.href="Formule.html";
+        window.location.href="Aruncarea sub un unghi.html";
+        
+        
+       }
+        
+        // Datele preluate din localStorage (înlocuiește cu datele tale din simulare)
+        const data = JSON.parse(localStorage.getItem("motionData"));
+
+        // Dacă nu există date în localStorage, oprește scriptul
+        if (!data) {
+            alert("Nu există date pentru a crea graficul. Lansează simularea!");
+        }
+
+        // Extrage datele pentru grafice
+        const timp = data.map(d => (d.time - data[0].time) / 1000); // Transformăm timpul în secunde
+        const viteza = data.map(d => d.speed);
+        const inaltime = data.map(d => d.height);
+        const ec = data.map(d => d.ec); // Energie cinetică
+        const ep = data.map(d => d.ep); // Energie potențială
+        const em = data.map(d => d.em); // Energie mecanică
+
+        // Creează graficul
+        const ctx = document.getElementById("motionChart").getContext("2d");
+        const motionChart = new Chart(ctx, {
+            type: 'line', // Tipul graficului
+            data: {
+                labels: timp, // Etichetele pe axa X (timpul)
+                datasets: [{
+                    label: 'Energie Cinetică (J)',
+                    data: ec,
+                    borderColor: '#ff69b4', // Roz
+                    backgroundColor: 'rgba(255, 105, 180, 0.2)', // Roz pal
+                    fill: true,
+                    lineTension: 0.2
+                }, {
+                    label: 'Energie Potențială (J)',
+                    data: ep,
+                    borderColor: '#008000', // Verde
+                    backgroundColor: 'rgba(0, 128, 0, 0.2)', // Verde pal
+                    fill: true,
+                    lineTension: 0.2
+                }, {
+                    label: 'Energie Mecanica (J)',
+                    data: em,
+                    borderColor: '#800080', // Mov
+                    backgroundColor: 'rgba(128, 0, 128, 0.2)', // Mov pal
+                    fill: true,
+                    lineTension: 0.2
+                }, {
+                    label: 'Timp Urcare (s)',
+                    data: viteza.map(v => v >= 0 ? 1 : 0), // Viteza ca timp de urcare (pentru a arăta dacă mingea urcă)
+                    borderColor: '#ff7f00', // Portocaliu
+                    backgroundColor: 'rgba(255, 127, 0, 0.2)', // Portocaliu pal
+                    fill: false,
+                    lineTension: 0.2
+                }, {
+                    label: 'Înălțime Maximă (m)',
+                    data: inaltime.map(() => Math.max(...inaltime)), // Înălțimea maximă atinsă
+                    borderColor: '#ffff00', // Galben
+                    backgroundColor: 'rgba(255, 255, 0, 0.2)', // Galben pal
+                    fill: false,
+                    lineTension: 0.2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Timp (secunde)'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Valoare (J sau m)'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+    </script>
+ <center>
+    <h1>Grafic-Aruncarea pe verticală</h1>
+       
+    <button onclick="window.location.href='Aruncarea verticala.html'">Aruncarea verticală în sus-Situația 2</button>
+    <button onclick="window.location.href='Caderealibera.html'">Căderea liberă-Situația 1</button>
+    <button onclick="window.location.href='Formule.html'">Formule utile pentru fiecare situație</button></center>
+</body>
+</html>
