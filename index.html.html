@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Mișcări în câmpul gravitațional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Dancing Script', cursive;
+            background-color: rgb(255, 154, 250);
+            font-size: 24px;
+            color: #50173d;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 40px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+        }
+        .info-box {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+            width: 250px;
+        }
+        canvas {
+            border: 2px solid #000;
+            background-color: transparent;
+        }
+        button {
+            margin-top: 15px;
+            padding: 8px 16px;
+            font-weight: bold;
+            background-color: #43a047;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mișcări în câmpul gravitațional</h1>
+    <h2>Căderea liberă</h2>
+    <div class="container">
+        <div class="info-box">
+            <label>Înălțime (m): <input type="number" id="h" value="10"></label>
+            <label>Masă (kg): <input type="number" id="m" value="1" step="0.1"></label><br><br>
+            <p><strong>Timp:</strong> <span id="timp">0.00</span> s</p>
+            <p><strong>Viteză:</strong> <span id="viteza">0.00</span> m/s</p>
+            <p><strong>Ep:</strong> <span id="ep">0.00</span> J</p>
+            <p><strong>Ec:</strong> <span id="ec">0.00</span> J</p>
+            <button onclick="startSimulation()">Simulează!</button>
+        </div>
+        <canvas id="canvas" width="900" height="450"></canvas>
+    </div>
+
+    <script>
+       function openAltepag(){
+        window.location.href="Aruncarea verticala.html";
+        window.location.href="Aruncarea verticala grafice.html";
+        window.location.href="Grafice caderea libera.html";
+        window.location.href="Formule.html";
+        window.location.href="Aruncarea sub un unghi.html";
+        
+        
+       }
+        
+        
+        
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        const g = 10;
+        const radius = 20;
+        let y, v, timp, masa, inaltime, animatie;
+        let bounceFactor = 0.75;
+
+        function drawScene() {
+            ctx.fillStyle = "#a3d9ff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
+            ctx.arc(100, 60, 20, 0, Math.PI * 2);
+            ctx.arc(120, 50, 30, 0, Math.PI * 2);
+            ctx.arc(150, 60, 25, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(600, 60, 30, 0, Math.PI * 2);
+            ctx.fillStyle = "#ffeb3b";
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(590, 55, 5, 0, Math.PI * 2);
+            ctx.arc(610, 55, 5, 0, Math.PI * 2);
+            ctx.fillStyle = "#000";
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(600, 65, 10, 0, Math.PI);
+            ctx.stroke();
+            
+            ctx.fillStyle = "#4CAF50";
+            ctx.fillRect(0, canvas.height - 30, canvas.width, 30);
+            
+            ctx.beginPath();
+            ctx.arc(200, y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = "violet";
+            ctx.fill();
+        }
+
+        function updatePhysics(dt) {
+            timp += dt;
+            v += g * dt;
+            y += v * dt * 10;
+
+            const podeaY = canvas.height - 30;
+            if (y + radius >= podeaY) {
+                y = podeaY - radius;
+                v = -v * bounceFactor;
+                if (Math.abs(v) < 1) animatie = false;
+            }
+
+            const h = Math.max((podeaY - y - radius) / 10, 0);
+            const Ep = masa * g * h;
+            const Ec = 0.5 * masa * v * v;
+
+            document.getElementById("timp").textContent = timp.toFixed(2);
+            document.getElementById("viteza").textContent = v.toFixed(2);
+            document.getElementById("ep").textContent = Ep.toFixed(2);
+            document.getElementById("ec").textContent = Ec.toFixed(2);
+        }
+
+        function animate() {
+            if (!animatie) return;
+            drawScene();
+            updatePhysics(0.02);
+            requestAnimationFrame(animate);
+        }
+
+        function startSimulation() {
+            masa = parseFloat(document.getElementById("m").value);
+            inaltime = parseFloat(document.getElementById("h").value);
+            y = canvas.height - 30 - inaltime * 10 - radius;
+            v = 0;
+            timp = 0;
+            animatie = true;
+            animate();
+        }
+
+        drawScene();
+    </script>
+    <center><button onclick="window.location.href='Aruncarea verticala.html'">Aruncarea verticală în sus-Situația 2</button>
+        <button onclick="window.location.href='Grafice caderea libera.html'">Grafice pentru caderea libera</button>
+        
+        <button onclick="window.location.href='Formule.html'">Formule utile pentru fiecare situație</button></center>
+        
+</body>
+</html>
