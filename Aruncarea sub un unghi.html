@@ -113,14 +113,24 @@ button{
 
       .results:hover{
         transform: scale(1.05);
+         transition: transform 0.3s ease; /* tranziție lină */
+    cursor: pointer; /* cursorul devine mână */
       }
-
+ol:hover{
+   transform: scale(1.05);
+         transition: transform 0.3s ease; /* tranziție lină */
+    cursor: pointer; /* cursorul devine mână */
+}
       p:hover{
         transform: scale(1.05);
+         transition: transform 0.3s ease; /* tranziție lină */
+    cursor: pointer; /* cursorul devine mână */
       }
 
       button:hover{
 transform: scale(1.05);
+         transition: transform 0.3s ease; /* tranziție lină */
+    cursor: pointer; /* cursorul devine mână */
       }
 
   </style>
@@ -155,7 +165,7 @@ transform: scale(1.05);
     <p>Distanța parcursă: <span id="xFinal">-</span> m</p>
      <button onclick="calculate()">Simulează</button>
   </div>
- 
+ <br>
   <canvas id="trajectoryCanvas" width="1000" height="500"></canvas>
 </center>
 
