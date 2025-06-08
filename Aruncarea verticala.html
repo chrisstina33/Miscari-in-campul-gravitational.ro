@@ -224,6 +224,61 @@
         update();
       }
     }
+    let lastTime = null;
+const bounceFactor = 0.8;  // mai „elestică” să sară bine
+const stopThreshold = 0.5; // sub asta oprim mingea
+
+function update(timestamp) {
+  if (!isMoving) return;
+  
+  if (!lastTime) lastTime = timestamp;
+  const deltaTime = (timestamp - lastTime) / 1000; // secunde
+  lastTime = timestamp;
+  
+  // Gravitație aplicată în funcție de timp
+  velocity -= g * deltaTime;
+  
+  // Actualizare poziție pe verticală
+  y -= velocity * 100 * deltaTime; // 100 pixeli ~ 10 metri, scala
+  
+  // Dacă a ajuns la sol
+  if (y > canvas.height - 50) {
+    y = canvas.height - 50;
+    
+    // Schimbăm direcția vitezei și o diminuăm
+    velocity = -velocity * bounceFactor;
+    
+    // Dacă viteza este prea mică, oprim mingea
+    if (Math.abs(velocity) < stopThreshold) {
+      velocity = 0;
+      isMoving = false;
+      lastTime = null;
+    }
+  }
+  
+  // Calcul înălțime în metri (scale)
+  let h = (canvas.height - 50 - y) / 10;
+  
+  let ec = 0.5 * masa * velocity * velocity;
+  let ep = masa * g * h;
+  let em = ec + ep;
+  
+  actualizeazaAfisaj(velocity, h, 0, ec, ep, em);
+  drawBall();
+  
+  if (isMoving) {
+    requestAnimationFrame(update);
+  }
+}
+
+function aruncaMingea() {
+  if (!isMoving) {
+    velocity = parseFloat(vitezaSlider.value);
+    isMoving = true;
+    lastTime = null;
+    requestAnimationFrame(update);
+  }
+}
 
     resetSimulare();
   </script>
