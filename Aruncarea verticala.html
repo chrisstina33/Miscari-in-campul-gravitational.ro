@@ -1,211 +1,208 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aruncarea pe verticală în sus</title>
-    <style>
-        body {
-            background: linear-gradient(to bottom, #9501ff, #0000e9);
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            color: white;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h1, h2, p, center {
-            text-align: center;
-        }
-
-        button {
-            color: #6a0dad;
-            background-color: white;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin: 5px;
-            border: none;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-            transform: 0.3s ease;
-            background-color: pink;
-            color: #ff00ff;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            border-radius: 30px;
-            height: 300px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-        }
-
-        .data-panel {
-            width: 30%;
-            padding: 20px;
-            background: rgba(245, 5, 25, 0.945);
-            border-radius: 30px;
-            height: 300px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-        }
-
-        .counter {
-            font-size: 18px;
-            margin: 10px 0;
-        }
-
-        canvas {
-            background: url('https://thumbs.dreamstime.com/b/mock-up-frame-home-interior-background-beige-room-natural-wooden-furniture-scandinavian-style-d-render-145944129.jpg');
-            border-radius: 30px;
-            height: 300px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-        }
-html{
-    scroll-behavior: smooth;
-}
-        .slider {
-            margin: 15px 0;
-            color:pink;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            height: 300px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aruncarea pe verticală în sus</title>
+<style>
+  body {
+    background: linear-gradient(to bottom, #9501ff, #0000e9);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: white;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1, h2, p {
+    text-align: center;
+    margin: 5px 0 10px 0;
+  }
+  .nav-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .nav-buttons button {
+    background-color: white;
+    color: #6a0dad;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  }
+  .nav-buttons button:hover {
+    transform: scale(1.05);
+    background-color: pink;
+    color: #ff00ff;
+  }
+  .data-panel {
+    background: rgba(245, 5, 25, 0.9);
+    padding: 20px;
+    border-radius: 30px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 15px #ff00ffaa;
+    margin-bottom: 25px;
+  }
+  .slider {
+    margin-bottom: 20px;
+  }
+  .slider label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: pink;
+  }
+  .counter {
+    font-size: 18px;
+    margin: 6px 0;
+  }
+  button#launchBtn {
+    width: 100%;
+    background-color: white;
+    color: #6a0dad;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 12px 0;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  }
+  button#launchBtn:hover {
+    transform: scale(1.05);
+    background-color: pink;
+    color: #ff00ff;
+  }
+  canvas {
+    border-radius: 30px;
+    background: url('https://thumbs.dreamstime.com/b/mock-up-frame-home-interior-background-beige-room-natural-wooden-furniture-scandinavian-style-d-render-145944129.jpg') center/cover no-repeat;
+    width: 90%;
+    max-width: 400px;
+    height: 400px;
+    box-shadow: 0 0 25px #6a0dadbb;
+  }
+</style>
 </head>
 <body>
-    <center>
-        <h1>Mișcări în câmpul gravitațional</h1>
-        <h2>Aruncarea pe verticală în sus a unui corp</h2>
-        <p>
-            Atunci când un corp este aruncat vertical în sus, acesta se mișcă împotriva forței gravitaționale, încetinindu-se treptat până ajunge la punctul cel mai înalt. 
-            Aici, viteza lui devine zero pentru un moment foarte scurt, după care începe să cadă înapoi spre sol.
-        </p>
-        <button onclick="window.location.href='Grafice caderea libera.html'">Graficele pentru căderea liberă</button>
-        <button onclick="window.location.href='Aruncarea verticala grafice.html'">Graficele aferente acestui concept</button>
-        <button onclick="window.location.href='Aruncarea sub un unghi.html'">Aruncarea sub un unghi - Situația 3</button>
-        <button onclick="window.location.href='Formule1.html'">Formule utile pentru fiecare situație</button>
-    </center>
+  <h1>Mișcări în câmpul gravitațional</h1>
+  <h2>Aruncarea pe verticală în sus a unui corp</h2>
+  <p>
+    Atunci când un corp este aruncat vertical în sus, acesta se mișcă împotriva forței gravitaționale, încetinindu-se treptat până ajunge la punctul cel mai înalt. 
+    Aici, viteza lui devine zero pentru un moment foarte scurt, după care începe să cadă înapoi spre sol.
+  </p>
 
-    <div class="container">
-        <div class="data-panel">
-            <h2>Rezultate și simulare live</h2>
-            <div class="slider">
-                <label for="vitezaSlider">Viteză inițială: <span id="vitezaValoare">20</span> m/s</label>
-                <input type="range" id="vitezaSlider" min="5" max="40" value="20">
-            </div>
-            <div class="counter" id="viteza">Viteza: 0 m/s</div>
-            <div class="counter" id="inaltime">Înălțime: 0 m</div>
-            <div class="counter" id="timp">Timp urcare: 0 s</div>
-            <div class="counter" id="energie_cinetica">Energie cinetică: 0 J</div>
-            <div class="counter" id="energie_potentiala">Energie potențială: 0 J</div>
-            <div class="counter" id="energie_mecanica">Energie mecanică: 0 J</div>
-            <button onclick="aruncaMingea()">Aruncă Mingea</button>
-        </div>
-        <canvas id="canvas" width="400" height="500"></canvas>
+  <div class="nav-buttons">
+    <button onclick="window.location.href='Grafice caderea libera.html'">Grafice căderea liberă</button>
+    <button onclick="window.location.href='Aruncarea verticala grafice.html'">Grafice verticale</button>
+    <button onclick="window.location.href='Aruncarea sub un unghi.html'">Aruncare sub un unghi</button>
+    <button onclick="window.location.href='Formule1.html'">Formule utile</button>
+  </div>
+
+  <div class="data-panel">
+    <h2>Rezultate și simulare live</h2>
+    <div class="slider">
+      <label for="vitezaSlider">Viteză inițială: <span id="vitezaValoare">20</span> m/s</label>
+      <input type="range" id="vitezaSlider" min="5" max="40" value="20" />
     </div>
+    <div class="counter" id="viteza">Viteza: 0 m/s</div>
+    <div class="counter" id="inaltime">Înălțime: 0 m</div>
+    <div class="counter" id="timp">Timp urcare: 0 s</div>
+    <div class="counter" id="energie_cinetica">Energie cinetică: 0 J</div>
+    <div class="counter" id="energie_potentiala">Energie potențială: 0 J</div>
+    <div class="counter" id="energie_mecanica">Energie mecanică: 0 J</div>
+    <button id="launchBtn" onclick="aruncaMingea()">Aruncă Mingea</button>
+  </div>
 
-    <script>
-        const canvas = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
-        const vitezaSlider = document.getElementById("vitezaSlider");
-        const vitezaValoare = document.getElementById("vitezaValoare");
+  <canvas id="canvas" width="400" height="400"></canvas>
 
-        let g = 9.8;
-        let masa = 1;
-        let y, velocity, isMoving, startTime, data;
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const vitezaSlider = document.getElementById("vitezaSlider");
+    const vitezaValoare = document.getElementById("vitezaValoare");
 
-        vitezaSlider.addEventListener("input", () => {
-            vitezaValoare.textContent = vitezaSlider.value;
-        });
+    let g = 9.8;
+    let masa = 1;
+    let y, velocity, isMoving, startTime, totalTime;
 
-        function resetSimulare() {
-            y = canvas.height - 50;
-            velocity = 0;
-            isMoving = false;
-            startTime = 0;
-            data = [];
-            drawBall();
-            actualizeazaAfisaj(0, 0, 0, 0, 0, 0);
-        }
+    vitezaSlider.addEventListener("input", () => {
+      vitezaValoare.textContent = vitezaSlider.value;
+      if (!isMoving) resetSimulare();
+    });
 
-        function drawBall() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.beginPath();
-            ctx.arc(canvas.width / 2, y, 20, 0, Math.PI * 2);
-            ctx.fillStyle = "purple";
-            ctx.fill();
-            ctx.closePath();
-        }
+    function resetSimulare() {
+      y = canvas.height - 40; // mingea începe jos
+      velocity = 0;
+      isMoving = false;
+      startTime = 0;
+      totalTime = 0;
+      actualizeazaAfisaj(0, 0, 0, 0, 0, 0);
+      drawBall();
+    }
 
-        function actualizeazaAfisaj(v, h, t, ec, ep, em) {
-            document.getElementById("viteza").textContent = `Viteza: ${v.toFixed(2)} m/s`;
-            document.getElementById("inaltime").textContent = `Înălțime: ${h.toFixed(2)} m`;
-            document.getElementById("timp").textContent = `Timp urcare: ${t.toFixed(2)} s`;
-            document.getElementById("energie_cinetica").textContent = `Energie cinetică: ${ec.toFixed(2)} J`;
-            document.getElementById("energie_potentiala").textContent = `Energie potențială: ${ep.toFixed(2)} J`;
-            document.getElementById("energie_mecanica").textContent = `Energie mecanică: ${em.toFixed(2)} J`;
-        }
+    function drawBall() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.arc(canvas.width / 2, y, 20, 0, Math.PI * 2);
+      ctx.fillStyle = "purple";
+      ctx.fill();
+      ctx.closePath();
+    }
 
-        function update() {
-            if (!isMoving) return;
+    function actualizeazaAfisaj(v, h, t, ec, ep, em) {
+      document.getElementById("viteza").textContent = `Viteza: ${v.toFixed(2)} m/s`;
+      document.getElementById("inaltime").textContent = `Înălțime: ${h.toFixed(2)} m`;
+      document.getElementById("timp").textContent = `Timp urcare: ${t.toFixed(2)} s`;
+      document.getElementById("energie_cinetica").textContent = `Energie cinetică: ${ec.toFixed(2)} J`;
+      document.getElementById("energie_potentiala").textContent = `Energie potențială: ${ep.toFixed(2)} J`;
+      document.getElementById("energie_mecanica").textContent = `Energie mecanică: ${em.toFixed(2)} J`;
+    }
 
-            velocity -= g * 0.05;
-            y -= velocity;
-            let h = (canvas.height - 50 - y) / 10;
-            let ec = 0.5 * masa * velocity * velocity;
-            let ep = masa * g * h;
-            let em = ec + ep;
+    function update(timestamp) {
+      if (!isMoving) return;
 
-            if (velocity <= 0 && startTime === 0) {
-                startTime = Date.now();
-            }
+      if (!startTime) startTime = timestamp;
+      totalTime = (timestamp - startTime) / 1000;
 
-            if (y >= canvas.height - 50) {
-                velocity *= -0.6;
-                y = canvas.height - 50;
-                if (Math.abs(velocity) < 1) {
-                    isMoving = false;
-                    velocity = 0;
-                }
-                document.getElementById("timp").textContent = `Timp urcare: ${((Date.now() - startTime) / 1000).toFixed(2)} s`;
-                startTime = 0;
-            }
+      velocity -= g * 0.02; // pasul de timp ajustat pentru mișcare mai lină
+      y -= velocity * 4;    // scalează viteza la pixeli (aici 4 pixeli per m)
 
-            actualizeazaAfisaj(velocity, h, (Date.now() - startTime) / 1000, ec, ep, em);
-            data.push({ time: Date.now(), speed: velocity, height: h, ec: ec, ep: ep, em: em });
-            localStorage.setItem("motionData", JSON.stringify(data));
+      // calculează înălțimea în metri (punctul de start e jos)
+      let h = (canvas.height - 40 - y) / 4;
 
-            drawBall();
-            requestAnimationFrame(update);
-        }
+      if (y > canvas.height - 40) {
+        y = canvas.height - 40;
+        velocity = 0;
+        isMoving = false;
+      }
 
-        function aruncaMingea() {
-            if (!isMoving) {
-                velocity = parseFloat(vitezaSlider.value);
-                isMoving = true;
-                startTime = 0;
-                update();
-            }
-        }
+      let ec = 0.5 * masa * velocity * velocity;
+      let ep = masa * g * h;
+      let em = ec + ep;
 
-        resetSimulare();
-    </script>
+      actualizeazaAfisaj(velocity, h, totalTime, ec, ep, em);
+      drawBall();
+      requestAnimationFrame(update);
+    }
+
+    function aruncaMingea() {
+      if (!isMoving) {
+        velocity = parseFloat(vitezaSlider.value);
+        isMoving = true;
+        startTime = 0;
+        totalTime = 0;
+        requestAnimationFrame(update);
+      }
+    }
+
+    resetSimulare();
+  </script>
 </body>
 </html>
