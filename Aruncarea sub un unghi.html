@@ -1,22 +1,31 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Aruncarea sub un unghi</title>
 
   <!-- Fonturi -->
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Oleo+Script&family=Satisfy&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Oleo+Script&family=Satisfy&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet" />
 
   <style>
+    /* Reset și baza */
+    * {
+      box-sizing: border-box;
+    }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #ffa3d9;
+      background: linear-gradient(135deg, #f3c5e0, #c7a3f8);
       margin: 0;
-      padding: 20px;
+      padding: 15px;
+      color: #3a005f;
+    }
+    center {
+      max-width: 900px;
+      margin: 0 auto;
     }
 
     h1, h2, h3, p, ol, button, .results {
@@ -26,68 +35,98 @@
 
     h1 {
       font-family: 'Dancing Script', cursive;
-      color: violet;
-      background-color: azure;
-      border: solid purple 6px;
-      margin: 20px;
-      border-radius: 20px;
+      color: #a33cff;
+      background-color: #f7e8ff;
+      border: 5px solid #b366ff;
+      margin: 20px 0;
+      border-radius: 18px;
+      padding: 10px 15px;
+      font-size: 2.8rem;
+      user-select: none;
     }
 
     h2 {
       font-family: 'Dancing Script', cursive;
-      color: #5a4fcf; /* în loc de iris */
-      background-color: azure;
-      border: solid purple 6px;
-      border-radius: 20px;
-      padding: 5px;
+      color: #4b3a8c;
+      background-color: #e6d8ff;
+      border: 4px solid #8a6cff;
+      border-radius: 18px;
+      padding: 8px 12px;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      user-select: none;
     }
 
     h3 {
       font-family: 'Lilita One', cursive;
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+      user-select: none;
     }
 
     p {
       font-family: 'Oleo Script', cursive;
-      color: #4169e1;
-      background-color: #ccccff;
-      border-radius: 20px;
-      border: solid violet 3px;
-      padding: 10px;
+      color: #381c75;
+      background-color: #dcd0ff;
+      border-radius: 15px;
+      border: 2.5px solid #af9fff;
+      padding: 12px 20px;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      user-select: text;
     }
 
     ol {
       font-family: 'Oleo Script', cursive;
-      color: purple;
-      background-color: azure;
-      border: solid purple 6px;
-      margin: 20px;
-      border-radius: 10px;
-      padding: 10px;
+      color: #5c42b0;
+      background-color: #ede7ff;
+      border: 4px solid #a891ff;
+      margin: 20px 0;
+      border-radius: 12px;
+      padding: 15px 20px;
+      font-size: 1.1rem;
+      user-select: text;
     }
 
     .results {
       font-family: 'Oleo Script', cursive;
-      color: white;
-      background-color: #F08080;
-      border: solid azure 4px;
+      color: #fff;
+      background-color: #9a52ff;
+      border: 4px solid #e0d0ff;
       border-radius: 20px;
-      padding: 15px;
-      margin: 0 15px;
+      padding: 20px 25px;
+      margin: 20px 0;
+      font-size: 1.15rem;
+      user-select: none;
     }
 
     button {
       font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
       color: white;
-      background-color: indianred;
-      border-radius: 10px;
-      padding: 10px 15px;
+      background-color: #a136ff;
+      border-radius: 15px;
+      padding: 12px 20px;
       border: none;
+      font-size: 1.15rem;
+      margin: 10px 8px 20px 8px;
+      cursor: pointer;
+      box-shadow: 0 5px 10px rgba(163,54,255,0.5);
+      user-select: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    button:hover {
+      background-color: #7a0fcf;
+      transform: scale(1.07);
     }
 
     canvas {
-      border: 2px solid #0f52ba;
-      background-color: aqua;
-      border-radius: 20px;
+      border: 3px solid #5d2cae;
+      background-color: #e9d9ff;
+      border-radius: 18px;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 20px auto;
     }
 
     h1:hover, h2:hover, ol:hover, p:hover, .results:hover, button:hover {
@@ -96,15 +135,74 @@
 
     .controls label {
       display: block;
-      margin: 10px 0;
+      margin: 12px 0 6px 0;
       font-family: 'Oleo Script', cursive;
       color: #4B0082;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+    .controls input[type="number"] {
+      width: 100%;
+      max-width: 150px;
+      padding: 8px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 2px solid #af9fff;
+      font-family: 'Segoe UI', sans-serif;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+      transition: border-color 0.3s ease;
+      user-select: text;
+    }
+    .controls input[type="number"]:focus {
+      border-color: #7a0fcf;
+      outline: none;
+    }
+
+    /* Responsive pentru telefoane */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px 8px;
+      }
+      h1 {
+        font-size: 2.2rem;
+        margin: 12px 0;
+      }
+      h2 {
+        font-size: 1.6rem;
+        margin-bottom: 16px;
+      }
+      h3 {
+        font-size: 1.3rem;
+      }
+      p, ol {
+        font-size: 1rem;
+        padding: 10px 15px;
+        margin: 12px 0;
+      }
+      .results {
+        font-size: 1rem;
+        padding: 15px 18px;
+      }
+      button {
+        font-size: 1rem;
+        padding: 10px 15px;
+        margin: 8px 5px 15px 5px;
+        border-radius: 12px;
+      }
+      .controls label {
+        font-size: 1rem;
+        margin: 10px 0 4px 0;
+      }
+      .controls input[type="number"] {
+        max-width: 100%;
+      }
+      canvas {
+        height: 250px !important;
+      }
     }
   </style>
 </head>
-
 <body>
-
   <center>
     <h1>Mișcări în câmpul gravitațional</h1>
     <h2>Aruncarea sub un unghi - Situația 3</h2>
@@ -125,8 +223,12 @@
     </p>
 
     <div class="controls">
-      <label for="v0">Viteza inițială (v₀): <input type="number" id="v0" value="20"></label>
-      <label for="angle">Unghiul (în grade): <input type="number" id="angle" value="45"></label>
+      <label for="v0">Viteza inițială (v₀):
+        <input type="number" id="v0" value="20" min="0" step="any" />
+      </label>
+      <label for="angle">Unghiul (în grade):
+        <input type="number" id="angle" value="45" min="0" max="90" step="any" />
+      </label>
     </div>
 
     <div class="results">
@@ -137,13 +239,13 @@
       <button onclick="calculate()">Simulează</button>
     </div>
 
-    <br>
-    <canvas id="trajectoryCanvas" width="1000" height="500"></canvas>
+    <canvas id="trajectoryCanvas" width="900" height="400"></canvas>
 
-    <br><br>
-    <button onclick="window.location.href='Aruncarea verticala.html'">Aruncarea verticală în sus - Situația 2</button>
-    <button onclick="window.location.href='index.html'">Căderea liberă - Situația 1</button>
-    <button onclick="window.location.href='Formule1.html'">Formule utile pentru fiecare situație</button>
+    <div>
+      <button onclick="window.location.href='Aruncarea verticala.html'">Aruncarea verticală în sus - Situația 2</button>
+      <button onclick="window.location.href='index.html'">Căderea liberă - Situația 1</button>
+      <button onclick="window.location.href='Formule1.html'">Formule utile pentru fiecare situație</button>
+    </div>
   </center>
 
   <script>
@@ -151,6 +253,10 @@
       const g = 10;
       const v0 = parseFloat(document.getElementById('v0').value);
       const angle = parseFloat(document.getElementById('angle').value);
+      if(isNaN(v0) || isNaN(angle) || v0 < 0 || angle < 0 || angle > 90) {
+        alert("Te rog să introduci valori valide pentru viteză și unghi.");
+        return;
+      }
       const angleRad = angle * Math.PI / 180;
       const v0x = v0 * Math.cos(angleRad);
       const v0y = v0 * Math.sin(angleRad);
@@ -169,58 +275,76 @@
     function animateProjectile(v0x, v0y, tTotal, g, xFinal, hMax) {
       const canvas = document.getElementById('trajectoryCanvas');
       const ctx = canvas.getContext('2d');
-      const scale = Math.min(canvas.width / xFinal, canvas.height / hMax * 0.8);
-      const radius = 7;
+      // scale cu margine de siguranță să nu iasă din canvas
+      const scaleX = canvas.width / (xFinal * 1.1);
+      const scaleY = canvas.height / (hMax * 1.3);
+      const scale = Math.min(scaleX, scaleY);
+      const radius = 8;
       let startTime = null;
 
       function drawBall(x, y) {
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, 2 * Math.PI);
-        ctx.fillStyle = "white";
+        ctx.fillStyle = '#a136ff';
         ctx.fill();
-        ctx.stroke();
-      }
-
-      function drawTrajectory() {
-        ctx.beginPath();
-        for (let t = 0; t <= tTotal; t += 0.01) {
-          const x = v0x * t;
-          const y = v0y * t - 0.5 * g * t * t;
-          const canvasX = x * scale;
-          const canvasY = canvas.height - y * scale;
-          if (t === 0) {
-            ctx.moveTo(canvasX, canvasY);
-          } else {
-            ctx.lineTo(canvasX, canvasY);
-          }
-        }
-        ctx.strokeStyle = "purple";
+        ctx.strokeStyle = '#5d2cae';
         ctx.lineWidth = 2;
         ctx.stroke();
       }
 
-      function animate(timestamp) {
-        if (!startTime) startTime = timestamp;
-        const elapsed = (timestamp - startTime) / 1000;
-
+      function clear() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawTrajectory();
-
-        if (elapsed <= tTotal) {
-          const x = v0x * elapsed;
-          const y = v0y * elapsed - 0.5 * g * elapsed * elapsed;
-          const canvasX = x * scale;
-          const canvasY = canvas.height - y * scale;
-          drawBall(canvasX, canvasY);
-          requestAnimationFrame(animate);
-        } else {
-          const canvasX = xFinal * scale;
-          const canvasY = canvas.height;
-          drawBall(canvasX, canvasY);
-        }
       }
 
-      requestAnimationFrame(animate);
+      function drawAxes() {
+        ctx.strokeStyle = '#5d2cae';
+        ctx.lineWidth = 3;
+        // axa X
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height - 30);
+        ctx.lineTo(canvas.width, canvas.height - 30);
+        ctx.stroke();
+        // axa Y
+        ctx.beginPath();
+        ctx.moveTo(30, 0);
+        ctx.lineTo(30, canvas.height);
+        ctx.stroke();
+
+        // etichete
+        ctx.fillStyle = '#381c75';
+        ctx.font = 'bold 14px Segoe UI';
+        ctx.fillText('0', 10, canvas.height - 10);
+        ctx.fillText('X (m)', canvas.width - 50, canvas.height - 10);
+        ctx.fillText('Y (m)', 5, 20);
+      }
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = (timestamp - startTime) / 1000; // secunde
+
+        clear();
+        drawAxes();
+
+        if (elapsed > tTotal) {
+          // ultima pozitie la sol
+          const xEnd = 30 + xFinal * scale;
+          const yEnd = canvas.height - 30;
+          drawBall(xEnd, yEnd);
+          return;
+        }
+
+        const x = v0x * elapsed;
+        const y = v0y * elapsed - 0.5 * g * elapsed * elapsed;
+
+        const canvasX = 30 + x * scale;
+        const canvasY = canvas.height - 30 - y * scale;
+
+        drawBall(canvasX, canvasY);
+
+        requestAnimationFrame(step);
+      }
+
+      requestAnimationFrame(step);
     }
   </script>
 </body>
