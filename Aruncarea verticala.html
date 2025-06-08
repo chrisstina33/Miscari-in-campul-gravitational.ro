@@ -3,52 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aruncarea pe verticală in sus</title>
+    <title>Aruncarea pe verticală în sus</title>
     <style>
         body {
             background: linear-gradient(to bottom, #9501ff, #0000e9);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 100vh;
-            padding: 20px;
-            font-family:Georgia, 'Times New Roman', Times, serif;
+            font-family: Georgia, 'Times New Roman', Times, serif;
             color: white;
-        }
-        .container {
-            display: flex;
-            width: 100%;
-            background-size: cover;
-  background-position: center;
-  position: relative;
-  border-radius: 30px;
-        }
-        .data-panel {
-            width: 30%;
+            margin: 0;
             padding: 20px;
-            background: rgba(245, 5, 25, 0.945);
-            border-radius: 10px;
-            background-size: cover;
-  background-position: center;
-  position: relative;
-  border-radius: 30px;
         }
-        canvas {
-            background: url('https://www.novacolor-romania.ro/wp-content/uploads/2022/05/2-2-nuantele-de-verde-in-designul-interior-nuante-de-verde-in-living-canapea-alba-perete-verde.jpg') no-repeat center center/cover;
-            border: 2px solid rgb(238, 217, 28);
-            background-size: cover;
-  background-position: center;
-  position: relative;
-  border-radius: 30px;
+
+        h1, h2, p, center {
+            text-align: center;
         }
-        .counter {
-            font-size: 18px;
-            margin: 10px 0;
-            background-size: cover;
-  background-position: center;
-  position: relative;
-  border-radius: 30px;
-        }
+
         button {
             color: #6a0dad;
             background-color: white;
@@ -56,31 +24,73 @@
             padding: 10px;
             border-radius: 10px;
             cursor: pointer;
+            margin: 5px;
+            border: none;
         }
 
-        button:hover{
-            cursor: pointer;
+        button:hover {
             transform: scale(1.05);
             background-color: pink;
-            color: fuchsia;
+            color: #ff00ff;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            border-radius: 30px;
+        }
+
+        .data-panel {
+            width: 30%;
+            padding: 20px;
+            background: rgba(245, 5, 25, 0.945);
+            border-radius: 30px;
+        }
+
+        .counter {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        canvas {
+            background: url('https://i.imgur.com/EZ5xUoL.jpg') no-repeat center center/cover;
+            border: 2px solid #eed91c;
+            border-radius: 30px;
+        }
+
+        .slider {
+            margin: 15px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
-    <center><h1>Mișcări în câmpul gravitațional</h1>
-    <h2>Aruncarea pe verticală în sus a unui corp</h2>
-    <p>Atunci când un corp este aruncat vertical în sus, acesta se mișcă împotriva forței gravitaționale, încetinindu-se treptat până ajunge la punctul cel mai înalt. Aici, viteza lui devine zero pentru un moment foarte scurt, după care începe să cadă înapoi spre sol.</p>
-    <button onclick="window.location.href='Grafice caderea libera.html'">Graficele pentru căderea liberă</button>
-    <button onclick="window.location.href='Aruncarea verticala grafice.html'">Graficele aferente acestui concept</button>
-    <button onclick="window.location.href='Aruncarea sub un unghi.html'">Aruncarea sub un unghi-Situația 3</button>
-    <button onclick="window.location.href='Formule1.html'">Formule utile pentru fiecare situație</button>
-    
-
+    <center>
+        <h1>Mișcări în câmpul gravitațional</h1>
+        <h2>Aruncarea pe verticală în sus a unui corp</h2>
+        <p>
+            Atunci când un corp este aruncat vertical în sus, acesta se mișcă împotriva forței gravitaționale, încetinindu-se treptat până ajunge la punctul cel mai înalt. 
+            Aici, viteza lui devine zero pentru un moment foarte scurt, după care începe să cadă înapoi spre sol.
+        </p>
+        <button onclick="window.location.href='Grafice caderea libera.html'">Graficele pentru căderea liberă</button>
+        <button onclick="window.location.href='Aruncarea verticala grafice.html'">Graficele aferente acestui concept</button>
+        <button onclick="window.location.href='Aruncarea sub un unghi.html'">Aruncarea sub un unghi - Situația 3</button>
+        <button onclick="window.location.href='Formule1.html'">Formule utile pentru fiecare situație</button>
     </center>
-    
+
     <div class="container">
         <div class="data-panel">
             <h2>Rezultate și simulare live</h2>
+            <div class="slider">
+                <label for="vitezaSlider">Viteză inițială: <span id="vitezaValoare">20</span> m/s</label>
+                <input type="range" id="vitezaSlider" min="5" max="40" value="20">
+            </div>
             <div class="counter" id="viteza">Viteza: 0 m/s</div>
             <div class="counter" id="inaltime">Înălțime: 0 m</div>
             <div class="counter" id="timp">Timp urcare: 0 s</div>
@@ -95,10 +105,17 @@
     <script>
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
+        const vitezaSlider = document.getElementById("vitezaSlider");
+        const vitezaValoare = document.getElementById("vitezaValoare");
+
         let g = 9.8;
         let masa = 1;
         let y, velocity, isMoving, startTime, data;
-        
+
+        vitezaSlider.addEventListener("input", () => {
+            vitezaValoare.textContent = vitezaSlider.value;
+        });
+
         function resetSimulare() {
             y = canvas.height - 50;
             velocity = 0;
@@ -108,7 +125,7 @@
             drawBall();
             actualizeazaAfisaj(0, 0, 0, 0, 0, 0);
         }
-        
+
         function drawBall() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.beginPath();
@@ -117,7 +134,7 @@
             ctx.fill();
             ctx.closePath();
         }
-        
+
         function actualizeazaAfisaj(v, h, t, ec, ep, em) {
             document.getElementById("viteza").textContent = `Viteza: ${v.toFixed(2)} m/s`;
             document.getElementById("inaltime").textContent = `Înălțime: ${h.toFixed(2)} m`;
@@ -129,7 +146,7 @@
 
         function update() {
             if (!isMoving) return;
-            
+
             velocity -= g * 0.05;
             y -= velocity;
             let h = (canvas.height - 50 - y) / 10;
@@ -140,18 +157,18 @@
             if (velocity <= 0 && startTime === 0) {
                 startTime = Date.now();
             }
-            
+
             if (y >= canvas.height - 50) {
                 velocity *= -0.6;
                 y = canvas.height - 50;
                 if (Math.abs(velocity) < 1) {
-                    isMoving = false; // Permite o nouă aruncare
+                    isMoving = false;
                     velocity = 0;
                 }
                 document.getElementById("timp").textContent = `Timp urcare: ${((Date.now() - startTime) / 1000).toFixed(2)} s`;
                 startTime = 0;
             }
-            
+
             actualizeazaAfisaj(velocity, h, (Date.now() - startTime) / 1000, ec, ep, em);
             data.push({ time: Date.now(), speed: velocity, height: h, ec: ec, ep: ep, em: em });
             localStorage.setItem("motionData", JSON.stringify(data));
@@ -162,7 +179,7 @@
 
         function aruncaMingea() {
             if (!isMoving) {
-                velocity = 20;
+                velocity = parseFloat(vitezaSlider.value);
                 isMoving = true;
                 startTime = 0;
                 update();
